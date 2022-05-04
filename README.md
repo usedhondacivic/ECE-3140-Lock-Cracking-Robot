@@ -2,15 +2,15 @@
 
 ### Project Description
 
-We plan to use the SPI or IIC communication methods to send data and hopefully commands between 2 boards. Expected commands that a receiving board should be able to execute are turning on LEDs or keeping track of some state to be decided later.
+We would like to do a basic sound recognition project. We would connect a microphone to the board and activate LEDs when sound is detected. Possible extensions of this based on time, complexity, and board capabilities could include displaying discrete volume levels on the board’s LCD display or controlling LED color/frequency based on aspects of the sound detected. 
 ### Technical Approach
 
-We are going to be using the SPI, IIC, or UART communication methods as discussed in lecture; which one in particular we plan to use will be decided later. We also expect to use LEDs at length like we have been for the other labs.
-We are going to be using the SPI, IIC, or UART communication methods as discussed in lecture; which one in particular we plan to use will be decided later. We also expect to use LEDs at length like we have been for the other labs.
+Implementation will require an external microphone and LEDs compatible with the board. Generally, we would poll the microphone for sound data. When detected, we would concurrently output to LEDs while obtaining updated sound information in order to progress. 
+Implementation will require an external microphone and LEDs compatible with the board. Generally, we would poll the microphone for sound data. When detected, we would concurrently output to LEDs while obtaining updated sound information in order to progress. 
 
 ## Feedback.
 
 ## Welcome team! Please edit me.
 ### You can use the 'main' branch for you code.
 ### The GitHub web-page should be in the 'gh-pages' branch
-You can access the page adding a "pages" prefix to the url for the git repo e.g. if your browser currently shows https://github.coecis.cornell.edu/ece3140-sp22/jk2327-kmz25-sa685 then the GitHub page is at https://pages.github.coecis.cornell.edu/ece3140-sp22/jk2327-kmz25-sa685 . You can edit the source in the gh-pages branch or use the "automatic page generator" acessible via settings->options in the GitHub Pages Section toward the bottom. We recommend the latter approach since it is quick and easy. We made an initial wepage that you can edit and a description of the headings we expect to see.
+You can access the page adding a "pages" prefix to the url for the git repo e.g. if your browser currently shows https://github.coecis.cornell.edu/ece3140-sp22/ems395-nnb28-sc2484 then the GitHub page is at https://pages.github.coecis.cornell.edu/ece3140-sp22/ems395-nnb28-sc2484 . You can edit the source in the gh-pages branch or use the "automatic page generator" acessible via settings->options in the GitHub Pages Section toward the bottom. We recommend the latter approach since it is quick and easy. We made an initial wepage that you can edit and a description of the headings we expect to see.
