@@ -2,47 +2,25 @@
 
 ### Project Description
 
-Project Idea:
+Making a violin:
 
-decryption using leds: ask the user to input some text input through the laptop that would be connected to the laptop and then we decrypt that message and output the resulting value in binary using the LEDs to signal that. 
+-Use the capacitive touch sensor to "swipe," which would represent the bow/bow strokes
 
-We would like to implement RSA cryptography to decrypt a plain text message provided by the user. We would then display the decrypted message in binary using five LEDs. The way we can do this is if we have the form 11000 and we use the blue led to represent the first digit and the green to represent the second then we just blink the blue and the green to signal they are ones. 
+-On a breadboard, have four rows (representing the four strings on the violin) with four buttons each, representing the four fingers you can use to play notes
+
+-Connect this to a computer, which will play the note according to which buttons are pressed and only when there is a swipe & buttons pressed
+
+ 
+
+*If this is too much, just simplify to 3 buttons potentially, which each can play notes
 ### Technical Approach
 
-Plan to use a computer and five LEDs as external peripherals. The computer will be used as a way to allow the user to enter a string of text that will be sent to the board to encrypt. Then the board, connected to the LEDs, will display the decrypted text.  
-
-In RSA, we will choose 2 prime numbers p and a and use them to calculate n=pq. Then we will pick 2 numbers e and d such that ed= 1 mod (p-1)(q-1)
-
-We will make public n and e and make p,q and d private. When we receive the message m, we will calculate m^d mod n to output a decrypted message. 
-
-The high level idea then is :
-
-* input the text you would like through the laptop where we will limit the maximum number of words to be 4 and each word has maximum length of 6 words 
-
-* Change the text inputted to its binary equivalent where we use 5 bits for every alphabet letter. For instance 00001 becomes a.
-
-* Calculate the output value a knowing d and n 
-
-* Output that value a through signaling the needed LEDs. 
-Plan to use a computer and five LEDs as external peripherals. The computer will be used as a way to allow the user to enter a string of text that will be sent to the board to encrypt. Then the board, connected to the LEDs, will display the decrypted text.  
-
-In RSA, we will choose 2 prime numbers p and a and use them to calculate n=pq. Then we will pick 2 numbers e and d such that ed= 1 mod (p-1)(q-1)
-
-We will make public n and e and make p,q and d private. When we receive the message m, we will calculate m^d mod n to output a decrypted message. 
-
-The high level idea then is :
-
-* input the text you would like through the laptop where we will limit the maximum number of words to be 4 and each word has maximum length of 6 words 
-
-* Change the text inputted to its binary equivalent where we use 5 bits for every alphabet letter. For instance 00001 becomes a.
-
-* Calculate the output value a knowing d and n 
-
-* Output that value a through signaling the needed LEDs. 
+Planning to use the capacitive touch sensor and interrupts --> when a swipe is detected and buttons are pressed, interrupt to play a note
+Planning to use the capacitive touch sensor and interrupts --> when a swipe is detected and buttons are pressed, interrupt to play a note
 
 ## Feedback.
 
 ## Welcome team! Please edit me.
 ### You can use the 'main' branch for you code.
 ### The GitHub web-page should be in the 'gh-pages' branch
-You can access the page adding a "pages" prefix to the url for the git repo e.g. if your browser currently shows https://github.coecis.cornell.edu/ece3140-sp22/bak94-gb438-sk2446 then the GitHub page is at https://pages.github.coecis.cornell.edu/ece3140-sp22/bak94-gb438-sk2446 . You can edit the source in the gh-pages branch or use the "automatic page generator" acessible via settings->options in the GitHub Pages Section toward the bottom. We recommend the latter approach since it is quick and easy. We made an initial wepage that you can edit and a description of the headings we expect to see.
+You can access the page adding a "pages" prefix to the url for the git repo e.g. if your browser currently shows https://github.coecis.cornell.edu/ece3140-sp22/tlc234 then the GitHub page is at https://pages.github.coecis.cornell.edu/ece3140-sp22/tlc234 . You can edit the source in the gh-pages branch or use the "automatic page generator" acessible via settings->options in the GitHub Pages Section toward the bottom. We recommend the latter approach since it is quick and easy. We made an initial wepage that you can edit and a description of the headings we expect to see.
