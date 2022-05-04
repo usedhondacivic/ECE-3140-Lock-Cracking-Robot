@@ -2,181 +2,29 @@
 
 ### Project Description
 
-We propose to design a solar panel charge controller that is designed to emulate a renewable home power generation system which powers the home using solar panels and diverts excess energy to an in-home energy storage device. Our system will perform the following functions under these different conditions:
+For our final project, we want to create a memory game using the LEDs where the red and green LEDs blink in some sort of pattern, and the user has to repeat that pattern back using the board’s two buttons: SW1 and SW3, where they are mapped to red and green, respectively. For example, if the pattern is red, red, green, green, red, green, red, the user would have to click SW1, SW1, SW3, SW3, SW1, SW3, SW1 in that order to receive a point. We want to use the LCD display to show the users score. If the user successfully completes the pattern, they move onto the next “level”, where the difficulty scales linearly with one additional LED blink. However, if the user inputs an incorrect pattern, they lose the game, and the score of which level they got up to would be displayed on the LCD screen, and the red and green LED would blink at the same time over and over again to indicate that the game is over. Of course, the user can press the reset button, and try again. We plan to make the LED sequence random, so that the game can theoretically go on infinitely if the user is very skilled at memorizing the LED patterns.
 
- 
-
-Is the battery charged?
-
-Is the solar panel generating power?
-
-Route power from:
-
-Yes
-
-Yes
-
-Solar panel to load
-
-No
-
-Yes
-
-Solar panel to battery & load
-
-Yes
-
-No
-
-Battery to load
+To summarize: the game would begin with one LED blinking. Pressing the corresponding button would increment the player’s score by 1, which would be updated on the LCD display. Then, after a delay, there would be 2 LED blinks in a random pattern. Again, pressing the correct button pattern would increase the player’s score by 1, and so on. When the player does not replicate the pattern correctly, the red and green LED would blink simultaneously infinitely, indicating that the game is over, and the LCD screen would show the final score.
 ### Technical Approach
 
-Hardware
+We do not plan on using any additional peripherals for this project other than the two buttons on the board (SW1 and SW3), and the LCD display.
 
-Since there are high and low voltage systems interfacing in our design, we recognize the need to isolate both systems from each other using switches, relays, and other components. Our bill of materials is as follows.
+To achieve this game, we will first use the two user buttons on the board. When the user clicks one of the buttons, an interrupt will be triggered, and we can match the button clicked with the sequence of the LEDs in our interrupt handler function. The random LED sequence for each “level” will be stored in a linked list data structure, and we will also append the user’s button presses to a linked list, which will be compared together to determine if the user successfully completed a level. If the user’s sequential input matches the corresponding elements in the LED linked list, we know they successfully matched the pattern and can continue. Otherwise, they have failed to match the pattern and the game is over. After one successful completion of a level, we can award the player 1 point by adding onto a score variable. We can store the score variable as a field inside a game state struct that also contains other information about the game, such as whether the game is running or completed.
 
- 
+ We also want to display their points on the LCD panel at all times. While we do not know the specifics of how to display digits on the LCD, we know from photos of the board online that it is possible and should be feasible to implement a running count to track the user’s score, and display that number on the LCD. We would do this in the score incrementing function, where we retrieve the score from the aforementioned score variable, increment it, and update the LCD display with the new score. We would call this function from the interrupt handler once the above winning condition is true (i.e. the pattern matches).
 
-Item
+Finally, if the user’s input is incorrect, the game will be over, which would be signaled to the user by the green and red LED blinking at the same time indefinitely with a short delay in between each toggle.
+We do not plan on using any additional peripherals for this project other than the two buttons on the board (SW1 and SW3), and the LCD display.
 
-Quantity
+To achieve this game, we will first use the two user buttons on the board. When the user clicks one of the buttons, an interrupt will be triggered, and we can match the button clicked with the sequence of the LEDs in our interrupt handler function. The random LED sequence for each “level” will be stored in a linked list data structure, and we will also append the user’s button presses to a linked list, which will be compared together to determine if the user successfully completed a level. If the user’s sequential input matches the corresponding elements in the LED linked list, we know they successfully matched the pattern and can continue. Otherwise, they have failed to match the pattern and the game is over. After one successful completion of a level, we can award the player 1 point by adding onto a score variable. We can store the score variable as a field inside a game state struct that also contains other information about the game, such as whether the game is running or completed.
 
-Function
+ We also want to display their points on the LCD panel at all times. While we do not know the specifics of how to display digits on the LCD, we know from photos of the board online that it is possible and should be feasible to implement a running count to track the user’s score, and display that number on the LCD. We would do this in the score incrementing function, where we retrieve the score from the aforementioned score variable, increment it, and update the LCD display with the new score. We would call this function from the interrupt handler once the above winning condition is true (i.e. the pattern matches).
 
-[5V One Channel Relay Module] (https://www.amazon.com/gp/product/B00LW15A4W/ref=ox_sc_act_title_1?smid=A30QSGOJR8LMXA&psc=1)
-
-[B00LW15A4W] (https://www.amazon.com/gp/product/B00LW15A4W/ref=ox_sc_act_title_1?smid=A30QSGOJR8LMXA&psc=1)
-
-4
-
-Allows low voltage FRDM board to control power routing between battery, solar panel, and load and isolate the board from the high voltage circuit.
-
-[SparkFun Current Sensor] (https://www.amazon.com/gp/product/B07GL56CH5/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
-
-[ACS723] (https://www.amazon.com/gp/product/B07GL56CH5/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
-
-2
-
-Determines if circuit components are on and generating power. Allows us to isolate and protect the battery and load in the event of current spikes.
-
-[I2C 16x2 LCD Display Module] (https://www.amazon.com/GeeekPi-Character-Backlight-Raspberry-Electrical/dp/B07S7PJYM6/ref=pd_day0_sccl_3/131-6114398-9652515?pd_rd_w=MVxlg&pf_rd_p=8ca997d7-1ea0-4c8f-9e14-a6d756b83e30&pf_rd_r=4ABPFXBQD8KZAJ6XW78V&pd_rd_r=ba18e0d6-b1d5-4261-a12f-f6df382de9c6&pd_rd_wg=FVU4K&pd_rd_i=B07S7PJYM6&psc=1)
-
-2
-
-Display voltage and current from different circuit sections.
-
-[Bi-directional 3.3V-5V Logic Level Converter] (https://www.amazon.com/gp/product/B07LG646VS/ref=ox_sc_act_title_1?smid=A2K4DGCC72N9AG&psc=1)
-
-10
-
-Allows 3.3V FRDM Board to interface with the 5V LCD module and 5V relays
-
- 
-
-Software
-
-We will use the FRDM board to control the power routing between the solar panel, load, and battery. 
-
-For our system, inputs for the board include:
-
-* Voltage measurements
-
-* Battery terminals
-
-* Solar panel terminals
-
-* Current measurements
-
-* From solar panel terminals
-
-* Into load terminals
-
-Using these inputs, we intend to use “[maximum power point tracking] (https://en.wikipedia.org/wiki/Maximum_power_point_tracking)” (MPPT) to determine the most efficient power switching point for the solar panel and determine the correct current and voltage thresholds at which we should reroute power.
-
-The processes required include:
-
-* Polling current and voltage sensors
-
-* Calculating optimum switching point using MPPT
-
-* Relay control
-
-* Writing to LCD; should display the relevant current and voltage measurements
-Hardware
-
-Since there are high and low voltage systems interfacing in our design, we recognize the need to isolate both systems from each other using switches, relays, and other components. Our bill of materials is as follows.
-
- 
-
-Item
-
-Quantity
-
-Function
-
-[5V One Channel Relay Module] (https://www.amazon.com/gp/product/B00LW15A4W/ref=ox_sc_act_title_1?smid=A30QSGOJR8LMXA&psc=1)
-
-[B00LW15A4W] (https://www.amazon.com/gp/product/B00LW15A4W/ref=ox_sc_act_title_1?smid=A30QSGOJR8LMXA&psc=1)
-
-4
-
-Allows low voltage FRDM board to control power routing between battery, solar panel, and load and isolate the board from the high voltage circuit.
-
-[SparkFun Current Sensor] (https://www.amazon.com/gp/product/B07GL56CH5/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
-
-[ACS723] (https://www.amazon.com/gp/product/B07GL56CH5/ref=ppx_yo_dt_b_asin_title_o00_s00?ie=UTF8&psc=1)
-
-2
-
-Determines if circuit components are on and generating power. Allows us to isolate and protect the battery and load in the event of current spikes.
-
-[I2C 16x2 LCD Display Module] (https://www.amazon.com/GeeekPi-Character-Backlight-Raspberry-Electrical/dp/B07S7PJYM6/ref=pd_day0_sccl_3/131-6114398-9652515?pd_rd_w=MVxlg&pf_rd_p=8ca997d7-1ea0-4c8f-9e14-a6d756b83e30&pf_rd_r=4ABPFXBQD8KZAJ6XW78V&pd_rd_r=ba18e0d6-b1d5-4261-a12f-f6df382de9c6&pd_rd_wg=FVU4K&pd_rd_i=B07S7PJYM6&psc=1)
-
-2
-
-Display voltage and current from different circuit sections.
-
-[Bi-directional 3.3V-5V Logic Level Converter] (https://www.amazon.com/gp/product/B07LG646VS/ref=ox_sc_act_title_1?smid=A2K4DGCC72N9AG&psc=1)
-
-10
-
-Allows 3.3V FRDM Board to interface with the 5V LCD module and 5V relays
-
- 
-
-Software
-
-We will use the FRDM board to control the power routing between the solar panel, load, and battery. 
-
-For our system, inputs for the board include:
-
-* Voltage measurements
-
-* Battery terminals
-
-* Solar panel terminals
-
-* Current measurements
-
-* From solar panel terminals
-
-* Into load terminals
-
-Using these inputs, we intend to use “[maximum power point tracking] (https://en.wikipedia.org/wiki/Maximum_power_point_tracking)” (MPPT) to determine the most efficient power switching point for the solar panel and determine the correct current and voltage thresholds at which we should reroute power.
-
-The processes required include:
-
-* Polling current and voltage sensors
-
-* Calculating optimum switching point using MPPT
-
-* Relay control
-
-* Writing to LCD; should display the relevant current and voltage measurements
+Finally, if the user’s input is incorrect, the game will be over, which would be signaled to the user by the green and red LED blinking at the same time indefinitely with a short delay in between each toggle.
 
 ## Feedback.
 
 ## Welcome team! Please edit me.
 ### You can use the 'main' branch for you code.
 ### The GitHub web-page should be in the 'gh-pages' branch
-You can access the page adding a "pages" prefix to the url for the git repo e.g. if your browser currently shows https://github.coecis.cornell.edu/ece3140-sp22/am2389-no83 then the GitHub page is at https://pages.github.coecis.cornell.edu/ece3140-sp22/am2389-no83 . You can edit the source in the gh-pages branch or use the "automatic page generator" acessible via settings->options in the GitHub Pages Section toward the bottom. We recommend the latter approach since it is quick and easy. We made an initial wepage that you can edit and a description of the headings we expect to see.
+You can access the page adding a "pages" prefix to the url for the git repo e.g. if your browser currently shows https://github.coecis.cornell.edu/ece3140-sp22/rwp227-sg758 then the GitHub page is at https://pages.github.coecis.cornell.edu/ece3140-sp22/rwp227-sg758 . You can edit the source in the gh-pages branch or use the "automatic page generator" acessible via settings->options in the GitHub Pages Section toward the bottom. We recommend the latter approach since it is quick and easy. We made an initial wepage that you can edit and a description of the headings we expect to see.
