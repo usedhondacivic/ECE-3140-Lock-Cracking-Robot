@@ -2,15 +2,53 @@
 
 ### Project Description
 
-It will be a game that uses the board's LEDs and gyroscope. The user will hold the board however they want and then click a button to begin the game. The goal of the game is to find the orientation the board wants to be in. When the game begins, the board will pick a random orientation it wants. The user will rotate the board, as they do this, the red LED will be blinking. It will blink faster as the user gets closer to the correct orientation. Once the user is within an acceptable range, the green LED will turn on and the user will click a button to conclude the game. 
+Weathering Station
+
+We would like to be able to record weather measurements using peripheral add on devices. This can include wind measurements (speed and direction), precipitation measurements, etc. 
+
+Counts rotations or revolutions to see how fast the wind is going. 
+
+We will use the board display in order to show the weather measurements. 
+
+We plan to code up using the specifics given with the peripherals and then code up a display for the board.
+
+ 
 ### Technical Approach
 
-We do not plan to use any peripherals. We plan to use the LEDs, the accelerometer to serve as a gyroscope, and the buttons on the board. 
-We do not plan to use any peripherals. We plan to use the LEDs, the accelerometer to serve as a gyroscope, and the buttons on the board. 
+Weather device (precipitation machine) --> one of our members have
+
+Adapters --> need to change adapters to add to the board
+
+Wind direction and speed --> we have the physical tool for it 
+
+Cup Anemometer: measures the speed of the wind
+
+Direction (wind vane) : Each direction (for the wind) is associated with a certain voltage measurement 
+
+Precipitation Container :  Ticks every few ounces of precipitation that gets drained out and measures how much precipitation we have total.
+
+We plan to still use the current board or computer in order to display time, precipitation, and wind (speed + direction). 
+
+We will continue to code in C and we will use the specific code language given by the peripheral device (we plan to read documentation for both our current board and the device as well in order to interconnect them). 
+Weather device (precipitation machine) --> one of our members have
+
+Adapters --> need to change adapters to add to the board
+
+Wind direction and speed --> we have the physical tool for it 
+
+Cup Anemometer: measures the speed of the wind
+
+Direction (wind vane) : Each direction (for the wind) is associated with a certain voltage measurement 
+
+Precipitation Container :  Ticks every few ounces of precipitation that gets drained out and measures how much precipitation we have total.
+
+We plan to still use the current board or computer in order to display time, precipitation, and wind (speed + direction). 
+
+We will continue to code in C and we will use the specific code language given by the peripheral device (we plan to read documentation for both our current board and the device as well in order to interconnect them). 
 
 ## Feedback.
 
 ## Welcome team! Please edit me.
 ### You can use the 'main' branch for you code.
 ### The GitHub web-page should be in the 'gh-pages' branch
-You can access the page adding a "pages" prefix to the url for the git repo e.g. if your browser currently shows https://github.coecis.cornell.edu/ece3140-sp22/ap736-der242-emw236" then the GitHub page is at "https://pages.github.coecis.cornell.edu/ece3140-sp22/ap736-der242-emw236" You can edit the source in the gh-pages branch or use the "automatic page generator" acessible via settings->options in the GitHub Pages Section toward the bottom. We recommend the latter approach since it is quick and easy. We made an initial wepage that you can edit and a description of the headings we expect to see.
+You can access the page adding a "pages" prefix to the url for the git repo e.g. if your browser currently shows https://github.coecis.cornell.edu/ece3140-sp22/lcd49-mib57-vb269" then the GitHub page is at "https://pages.github.coecis.cornell.edu/ece3140-sp22/lcd49-mib57-vb269" You can edit the source in the gh-pages branch or use the "automatic page generator" acessible via settings->options in the GitHub Pages Section toward the bottom. We recommend the latter approach since it is quick and easy. We made an initial wepage that you can edit and a description of the headings we expect to see.
