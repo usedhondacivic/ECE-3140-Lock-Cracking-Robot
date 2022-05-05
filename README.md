@@ -13,7 +13,7 @@ It will use a stepper motor to manipulate the dial and a servo motor to pull on 
  
 
 ## Feedback.
-
+This is a great idea! I think your goal of finding the combination in under a minute is doable, however the system as a whole might be a little complicated for how much time you have. I would recommend tinking of ways to simplify for that sake of time, for example only using one motor and having the user pull on the shackle. If you already feel fairly comfortable with the hardware and 3D printing it is a doable project, just don't get too caught up on the hardware. Make sure you spend some time thinking about all the requirements of the system and ensuring that they are not too complicated.
 ## Welcome team! Please edit me.
 ### You can use the 'main' branch for you code.
 ### The GitHub web-page should be in the 'gh-pages' branch
