@@ -25,16 +25,27 @@
       <section>
         <h3>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h3>
-<h3>
-<a id="system-overview" class="anchor" href="#system-overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>System Overview</h3>
-<p>The CNC Master Lock Cracker is a robot designed to efficiently find the combination to any master lock.
+<p>The CNC Master Lock Cracker (who I call Clicky) is a robot designed to efficiently find the combination to any master lock brand combination lock.
+These are the classic locks you probably associate with your high school locker.
 First, place the lock in the lock holder and ensure the dial manipulator is seated on the dial.
 Rotate the dial so that the lock is at 0, then press the button on the microcontroller.
-The lock cracker will begin trying combinations, go make some coffee and come back to find it unlocked.</p>
+Clicky will begin speedily trying combinations, go make some coffee and come back to an unlocked lock!</p>
+<h3>
+<a id="system-overview" class="anchor" href="#system-overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>System Overview</h3>
+<h4>
+<a id="hardware" class="anchor" href="#hardware" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hardware</h4>
+<p>Clicky's body is made from clear laser cut acrylic, housing the electronics that make him work. A NEMA 17 stepper motor rotates the dial and an analog feedback servo is used to pull on the shackle and determine if the lock has been opened. All of the electronics are driven through a custom circuit board powered by a wall outlet.</p>
+<h4>
+<a id="software" class="anchor" href="#software" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Software</h4>
+<p>I wrote custom stepper and analog servo drivers to control Clicky, as well a library for using the buttons and capacitive touch slider on board the FRDM-KL46Z to control a LCD based UI. I also implemented the cracking algorithm, which has two modes: naïve and advanced. Naïve mode requires no input from the user, and simply tries every combination in order until the lock opens. Unfortunately, this can take upwards of 64,000 attempts which takes around 36 hours. This time is improved by using advanced mode, which requires the user to find and enter three binding points on the lock. Using advanced mode, the number of combinations is dropped down to 8, which can be attempted in under 30 seconds.</p>
 <h4>
 <a id="progress-to-date" class="anchor" href="#progress-to-date" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Progress to date:</h4>
-<p>I have completed all of the hardware and wiring for the project, and have written the stepper driver.
-It currently can unlock a lock when given its combination, but I still need to write the servo driver to automatically pull the shackle before brute forcing can begin.</p>
+<p>I have completed all of the hardware and wiring for the project, and have written the stepper driver. Clicky can currently unlock a lock when given its combination, but the user needs to pull on the shackle.</p>
+<h4>
+<a id="still-need-to-do" class="anchor" href="#still-need-to-do" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Still need to do:</h4>
+<p>I need to write the servo driver to both control the servo through PWM and read back its value from the analog feedback pin.
+I also need to implement the slider and button control, and create the LCD UI.
+My last step will be to implement the advanced cracking algorithm.</p>
 <h3>
 <a id="project-video-demo" class="anchor" href="#project-video-demo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Project Video Demo</h3>
 <h3>
