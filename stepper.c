@@ -1,7 +1,7 @@
 /*
  * stepper.c
  *
- * Stepper driver for the FRDM - KL46Z
+ * Stepper driver for the FRDM-KL46Z
  *
  *  Created on: May 2, 2022
  *      Author: Michael Crum
@@ -19,17 +19,26 @@ void delay(int microsec){
 
 
 void stepper_init(void){
-	//Turn on the clock gating to ports A
+	//Turn on the clock gating to ports A and D
 	SIM->SCGC5 |= SIM_SCGC5_PORTA_MASK;
+	SIM->SCGC5 |= SIM_SCGC5_PORTD_MASK;
 	//Set the pin MUX to GPIO
-	PORTA->PCR[1] = PORT_PCR_MUX(001);
-	PORTA->PCR[2] = PORT_PCR_MUX(001);
+	PORTA->PCR[1] = PORT_PCR_MUX(001); // Direction
+	PORTA->PCR[2] = PORT_PCR_MUX(001); // Step
+	PORTD->PCR[3] = PORT_PCR_MUX(001); // Servo feedback
+	PORTA->PCR[12] = PORT_PCR_MUX(001); // Enable
+
 	//Set the pins to output
 	PTA->PDDR |= (1 << 1);
 	PTA->PDDR |= (1 << 2);
-	//The LEDs should be OFF after this function runs
+	PTD->PDDR |= (1 << 3);
+	PTA->PDDR |= (1 << 12);
+
+	// Set pins low
 	PTA->PCOR |= (1 << 1);
 	PTA->PCOR |= (1 << 2);
+	PTD->PCOR |= (1 << 3);
+	PTA->PCOR |= (1 << 12);
 }
 
 /*

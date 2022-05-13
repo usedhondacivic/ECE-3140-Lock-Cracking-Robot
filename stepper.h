@@ -8,7 +8,7 @@
 #ifndef STEPPER_H_
 #define STEPPER_H_
 
-void delay(int milsec);
+void delay(int microsec);
 
 void stepper_init(void);
 
