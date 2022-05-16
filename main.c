@@ -10,24 +10,31 @@
 
 #include "stepper.h"
 #include "PWM.h"
+#include "servo.h"
+#include "ui.h"
 
 void go_to_number_right(int num){
-	go_to_position_right(num * 5, 50);
+	stepper_go_to_position_right(num * 5, 50);
 }
 
 void go_to_number_left(int num){
-	go_to_position_left(num * 5, 50);
+	stepper_go_to_position_left(num * 5, 50);
 }
 
 bool try_combo(int one, int two, int three){
-	move_stepper(600, -1, 50); // Reset the lock
+	servo_set_pos(0);
+	stepper_move(600, -1, 50); // Reset the lock
 
-	go_to_number_right(9);
+	go_to_number_right(one);
 
-	move_stepper(200, 1, 50); //Full turn
-	go_to_number_left(19);
+	stepper_move(200, 1, 50); //Full turn
+	go_to_number_left(two);
 
-	go_to_number_right(25);
+	go_to_number_right(three);
+
+	servo_set_pos(120);
+	delay(50000);
+	servo_set_pos(0);
 
 	//check servo feedback / button press
 	return false;
@@ -51,23 +58,31 @@ void brute_force(int interval){
 				if(try_combo(one, two, three)){
 					break; //Unlocked!
 				}
+				go_to_number_left(0);
 			}
 		}
 	}
 }
 
-
 int main (void)
 {
-
-	init_pwm();
-	set_control(500, 20000);
-
+ 	init_pwm();
 	stepper_init();
-	move_stepper(500, -1, 50); // Reset the lock
+
+	ui_init();
+
+	//display_combo(9, 19, 25);
+
+	get_slider_val();
+
+	stepper_disable();
+
+	wait_button_left();
+
+	stepper_enable();
 
 	try_combo(9, 19, 25);
-	set_control(1500, 20000);
-	delay(100000);
-	set_control(500, 20000);
+	//brute_force(1);
+
+	stepper_disable();
 }

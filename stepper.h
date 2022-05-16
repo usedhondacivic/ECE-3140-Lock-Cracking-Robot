@@ -12,10 +12,14 @@ void delay(int microsec);
 
 void stepper_init(void);
 
-void move_stepper(int steps, int direction, int speed);
+void stepper_move(int steps, int direction, int speed);
 
-void go_to_position_right(int position, int speed);
+void stepper_go_to_position_right(int position, int speed);
 
-void go_to_position_left(int position, int speed);
+void stepper_go_to_position_left(int position, int speed);
+
+void stepper_enable();
+
+void stepper_disable();
 
 #endif /* STEPPER_H_ */

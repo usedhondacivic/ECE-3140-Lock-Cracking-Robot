@@ -25,19 +25,16 @@ void stepper_init(void){
 	//Set the pin MUX to GPIO
 	PORTA->PCR[1] = PORT_PCR_MUX(001); // Direction
 	PORTA->PCR[2] = PORT_PCR_MUX(001); // Step
-	PORTD->PCR[3] = PORT_PCR_MUX(001); // Servo feedback
 	PORTA->PCR[12] = PORT_PCR_MUX(001); // Enable
 
 	//Set the pins to output
 	PTA->PDDR |= (1 << 1);
 	PTA->PDDR |= (1 << 2);
-	PTD->PDDR |= (1 << 3);
 	PTA->PDDR |= (1 << 12);
 
 	// Set pins low
 	PTA->PCOR |= (1 << 1);
 	PTA->PCOR |= (1 << 2);
-	PTD->PCOR |= (1 << 3);
 	PTA->PCOR |= (1 << 12);
 }
 
@@ -45,7 +42,7 @@ void stepper_init(void){
  * Move the stepper motor.
  * Speed corresponds to the delay between steps, so a lower value = faster movement
  */
-void move_stepper(int steps, int direction, int speed){
+void stepper_move(int steps, int direction, int speed){
 	if(direction == 1){
 		PTA->PCOR |= (1 << 1);  // Set direction to forward
 	}else{
@@ -65,24 +62,32 @@ int positive_modulo(int i, int n) {
     return (i % n + n) % n;
 }
 
-void go_to_position_right(int position, int speed){
+void stepper_go_to_position_right(int position, int speed){
 	int currentPos = positive_modulo(accumulator, 200);
 	int delta = currentPos - position;
 	if(delta >= 0){
-		move_stepper(delta, -1, speed);
+		stepper_move(delta, -1, speed);
 	}else{
 		int move = currentPos + (200 - position);
-		move_stepper(move, -1, speed);
+		stepper_move(move, -1, speed);
 	}
 }
 
-void go_to_position_left(int position, int speed){
+void stepper_go_to_position_left(int position, int speed){
 	int currentPos = positive_modulo(accumulator, 200);
 	int delta = position - currentPos;
 	if(delta >= 0){
-		move_stepper(delta, 1, speed);
+		stepper_move(delta, 1, speed);
 	}else{
 		int move =  (200 - currentPos) + position;
-		move_stepper(move, 1, speed);
+		stepper_move(move, 1, speed);
 	}
+}
+
+void stepper_enable(){
+	PTA->PCOR |= (1 << 12); // Active low
+}
+
+void stepper_disable(){
+	PTA->PSOR |= (1 << 12);
 }
