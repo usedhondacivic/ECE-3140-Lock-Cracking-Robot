@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>CNC Master Lock Cracker by ece3140-sp22</title>
+    <title>CNC Combination Cracker by ece3140-sp22</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/github-light.css">
@@ -15,7 +15,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>CNC Master Lock Cracker</h1>
+        <h1>CNC Combination Cracker</h1>
         <p>For all your cracking needs</p>
 
         <p class="view"><a href="https://github.coecis.cornell.edu/ece3140-sp22/mmc323">View the Project on GitHub <small>ece3140-sp22/mmc323</small></a></p>
@@ -23,13 +23,14 @@
 
       </header>
       <section>
-        <h3>
+        <p><img src="https://github.coecis.cornell.edu/ece3140-sp22/mmc323/blob/a446c6641c8168151990c3ba1408715b4531936a/docs/assets/cover.png?raw=true" alt="The robot"></p>
+<h3>
 <a id="introduction" class="anchor" href="#introduction" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introduction</h3>
 <p>The CNC Master Lock Cracker (who I call Clicky) is a robot designed to efficiently find the combination to any master lock brand combination lock.
 These are the classic locks you probably associate with your high school locker.
 First, place the lock in the lock holder and ensure the dial manipulator is seated on the dial.
 Rotate the dial so that the lock is at 0, then press the button on the microcontroller.
-Clicky will begin speedily trying combinations, go make some coffee and come back to an unlocked lock!</p>
+Clicky will begin speedily trying combinations.</p>
 <h3>
 <a id="system-overview" class="anchor" href="#system-overview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>System Overview</h3>
 <h4>
@@ -53,7 +54,8 @@ Clicky will begin speedily trying combinations, go make some coffee and come bac
 <a id="software-1" class="anchor" href="#software-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Software</h4>
 <p>Before I could work on the actually cracking algorithm, I needed to write drivers for my peripherals.</p>
 <p>The A4988 stepper driver accepts three inputs for control. These are ENABLE, DIRECTION, and STEP. ENABLE is self explanatory, and I use it to activate and deactivate the stepper. DIRECTION controls the direction of rotation, and STEP converts each low-high transition into a step of the motor. Because the stepper's operation is never interrupted by another routine, I chose to generate the low-high pulses using simple for-loop waits. I also implemented functions to go to certain positions, guided by an accumulator to keep track of the current location of the motor. This will be useful later to hit specific numbers in a combination.</p>
-<p>Next is control of the servo. Servo motors are controlled with PWM (pulse width modulation). My servo uses a frequency of 50 Hz, and pulses that range from 500 to 2000 microseconds. The width of the pulse decides the location of the servo. The FRDM-KL46Z includes a dedicated PWM peripheral called the TPM (timer / PWM module). I followed the chapter in the reference manual to configure the correct registers, then used a digital logic analyzer to verify that my pulses were the correct size. Finally I wrote a servo driver to map servo positions to their pulse width, and send the command to the pin.</p>
+<p>Next is control of the servo. Servo motors are controlled with PWM (pulse width modulation). My servo uses a frequency of 50 Hz, and pulses that range from 500 to 2000 microseconds. The width of the pulse decides the location of the servo. The FRDM-KL46Z includes a dedicated PWM peripheral called the TPM (timer / PWM module). I followed the chapter in the reference manual to configure the correct registers, then used a digital logic analyzer to verify that my pulses were the correct size.
+I then mapped servo positions to their pulse width. The servo also needed to know when it was able to open the shackle and when it failed. I chose a servo with an analog feedback wire, which I read using the ADC. Finally, I wrote a driver to combine all this functionality into one interface.</p>
 <p>Now I could finally get to cracking. I wrote and tested a routine to enter a combo, attempt to lift the shackle, and return if the lock opened or not. When this worked, I moved on to generating combinations to feed it. The naïve approach was simply three nested for-loops iterating over all 64,000 possible combinations. I also implemented an advanced approach, which requires some prep by the user. The steps are as follows:</p>
 <p>Hold the lock and pull up on the shackle. While pulling up on the shackle, move the dial towards 10. The dial should get stuck in a groove, but can spin slightly within it. If the groove goes between two whole numbers, ignore it and continue towards 10. If it goes across a whole number. Enter that number into the FRDM-KL46Z, and press the right button. Continue towards 10 until you find a second such groove, and enter this into the  FRDM-KL46Z as well.</p>
 <p>Now, loosen pressure on the dial until it can barely spin. Spin the dial repeatedly, looking for a point of resistance. Make sure the point is the same on each turn. Enter this number into the FRDM-KL46Z, and press the right button again.</p>
@@ -79,6 +81,7 @@ The 2nd and 3rd number are not within two in either direction.</p>
 <p>Finally I used stress testing to test the rest of the system. Cracking a master lock with no prior knowledge takes upwards of 64,000 attempts, which takes Clicky 36 hours straight. This served as the ultimate stress test, and I left it running for a day and a half. The system managed to open the lock after only 20 hours, and displayed the correct combination when finished.</p>
 <h3>
 <a id="additional-resources-used" class="anchor" href="#additional-resources-used" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Additional Resources Used</h3>
+<p><a href="https://samy.pl/master/master.html">Samy Kamkar's fantastic build</a></p>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.coecis.cornell.edu/ece3140-sp22">ece3140-sp22</a></p>
