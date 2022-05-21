@@ -72,31 +72,32 @@ Clicky will begin speedily trying combinations, and crack the combo!</p>
 <p>The 2nd number + 2 and the 3rd number are congruent mod 4.</p>
 <p>The 2nd and 3rd number are not within two in either direction.</p>
 <p>Using the collected info and these rules, we can narrow the potential combinations from 64,000 down to just eight. Below is the code for the advanced crack:</p>
-<p>`void advanced_crack(int lck_one, int lck_two, int resist){
-int one, two, three;</p>
-<pre><code>one = resist + 5;
+<pre><code>void advanced_crack(int lck_one, int lck_two, int resist){
+	int one, two, three;
 
-for(two = 0; two &lt; 40; two++){
-	if(one == two) continue;
-	for(three = 0; three &lt; 40; three++){
-		if(two == three) continue;
-		if(three % 10 != lck_one &amp;&amp; three % 10 != lck_two) continue;
-		if(three % 4 != one % 4) continue;
-		if((two + 2) % 4 != three % 4) continue;
-		if(three - two &lt;= 2 &amp;&amp; three - two &gt;= -2) continue;
-		display_combo(one, two, three);
-		if(try_combo(one, two, three)){
-			return; //Unlocked!
+	one = resist + 5;
+
+	for(two = 0; two &lt; 40; two++){
+		if(one == two) continue;
+		for(three = 0; three &lt; 40; three++){
+			if(two == three) continue;
+			if(three % 10 != lck_one &amp;&amp; three % 10 != lck_two) continue;
+			if(three % 4 != one % 4) continue;
+			if((two + 2) % 4 != three % 4) continue;
+			if(three - two &lt;= 2 &amp;&amp; three - two &gt;= -2) continue;
+			display_combo(one, two, three);
+			if(try_combo(one, two, three)){
+				return; //Unlocked!
+			}
+
+			if(three != 0){
+				go_to_number_right(0);
+			}
+
 		}
-
-		if(three != 0){
-			go_to_number_right(0);
-		}
-
 	}
 }
 </code></pre>
-<p>}`</p>
 <p>I implemented these rules by using nested for loops just as before, and using continue statements to skip invalid combos.</p>
 <p>The last step was to make the UI. I chose to use the LCD to display info, and the capacitive touch slider paired with the buttons for control. This avoided any additional hardware.</p>
 <p>I used the TA provided library to control the LCD, touch slider, and buttons. I modified them to avoid using the MCUXpresso clock controls (clock_config.h), as I found them to cause side-effects that broke other code.</p>
