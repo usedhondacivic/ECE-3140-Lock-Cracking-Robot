@@ -104,7 +104,9 @@ int main (void)
 	stepper_disable();
 
 	int one = get_slider_val();
+	delay(10000);
 	int two = get_slider_val();
+	delay(10000);
 	int three = get_slider_val();
 
 	wait_button_left();

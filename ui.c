@@ -121,6 +121,8 @@ bool get_button_right(){
 }
 
 int get_slider_val(){
+	PORTC->PCR[SWITCH_1_PIN] |= PORT_PCR_ISF(1);
+	PORTC->PCR[SWITCH_3_PIN] |= PORT_PCR_ISF(1);
 	int count = 0;
 	while(1){
 		int x = Touch_Scan_LH()/ 20.;
@@ -135,7 +137,7 @@ int get_slider_val(){
 		if(count < 0){
 			count = 0;
 		}
-		delay(50000);
+		delay(10000);
 		display_number(count);
 		if(get_button_right() == true){
 			return count;
