@@ -6,7 +6,7 @@
  */
 
 #include <stdint.h>
-#include "lcd.h"
+#include "LCD/lcd.h"
 
 
 int main(void)

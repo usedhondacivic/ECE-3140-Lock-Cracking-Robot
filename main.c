@@ -9,9 +9,9 @@
 #include <stdbool.h>
 
 #include "stepper.h"
-#include "PWM.h"
 #include "servo.h"
 #include "ui.h"
+#include "ADC/adc.h"
 
 void go_to_number_right(int num){
 	stepper_go_to_position_right(num * 5, 50);
@@ -32,11 +32,17 @@ bool try_combo(int one, int two, int three){
 
 	go_to_number_right(three);
 
-	servo_set_pos(120);
-	delay(50000);
+	servo_set_pos(130);
+	delay(30000);
+	int x = servo_get_pos();
+	//check servo feedback
+	if(x > 850){
+		servo_set_pos(0);
+		servo_disable();
+		return true;
+	}
 	servo_set_pos(0);
-
-	//check servo feedback / button press
+	delay(30000);
 	return false;
 }
 
@@ -47,7 +53,6 @@ void brute_force(int interval){
 	 *
 	 *	Combos can be mis-entered by a small margin, so we can skip that margin between each number.
 	 */
-
 	int one, two, three;
 
 	for(one = 0; one < 40; one+=interval){
@@ -64,25 +69,53 @@ void brute_force(int interval){
 	}
 }
 
+void advanced_crack(int lck_one, int lck_two, int resist){
+	int one, two, three;
+
+	one = resist + 5;
+
+	for(two = 0; two < 40; two++){
+		if(one == two) continue;
+		for(three = 0; three < 40; three++){
+			if(two == three) continue;
+			if(three % 10 != lck_one && three % 10 != lck_two) continue;
+			if(three % 4 != one % 4) continue;
+			if((two + 2) % 4 != three % 4) continue;
+			//if(three - two <= 2 && three - two >= -2) continue;
+			display_combo(one, two, three);
+			if(try_combo(one, two, three)){
+				return; //Unlocked!
+			}
+
+			if(three != 0){
+				go_to_number_right(0);
+			}
+
+		}
+	}
+}
+
 int main (void)
 {
- 	init_pwm();
+ 	servo_init();
+	ui_init();
 	stepper_init();
 
-	ui_init();
-
-	//display_combo(9, 19, 25);
-
-	get_slider_val();
-
 	stepper_disable();
+
+	int one = get_slider_val();
+	int two = get_slider_val();
+	int three = get_slider_val();
 
 	wait_button_left();
 
 	stepper_enable();
 
-	try_combo(9, 19, 25);
-	//brute_force(1);
+	advanced_crack(one, two, three);
+	//advanced_crack(5, 8, 4);
+	//advanced_crack(6, 9, 9);
 
 	stepper_disable();
+
+	while(1){}
 }

@@ -12,9 +12,9 @@
 int accumulator = 0;
 
 void delay(int microsec){
-	// 20.97152 MHz system clock / 10^6 microsec per second = 21 cycles / microsecond
+	// 48 MHz system clock / 10^6 microsec per second = 48 cycles / microsecond
 	int j;
-	for(j=0; j<21*microsec; j++);
+	for(j=0; j<48*microsec; j++);
 }
 
 

@@ -7,7 +7,7 @@
 
 #include <MKL46Z4.h>
 
-void init_pwm(void){
+void pwm_init(void){
 	//Turn on clock gating for port C
 	SIM->SCGC5 |= SIM_SCGC5_PORTC_MASK;
 	//Set the TPM to use the MCFGLLCLK
@@ -29,8 +29,13 @@ void init_pwm(void){
 void set_control(int pulse_width, int period){
 	//Set the frequency and pulse width
 	TPM0->SC = TPM_SC_CMOD(00);
-	TPM0->SC |= 3; // 16x pre-scale
-	TPM0->MOD = TPM_MOD_MOD((int)(period*2.5));
-	(TPM0->CONTROLS[4]).CnV = TPM_CnV_VAL((int)(pulse_width*2.5));
+	TPM0->SC |= 5; // 32x pre-scale
+	TPM0->MOD = TPM_MOD_MOD((int)(period*0.66));
+	(TPM0->CONTROLS[4]).CnV = TPM_CnV_VAL((int)(pulse_width*0.66));
 	TPM0->SC = TPM_SC_CMOD(01);
+}
+
+void pwm_disable(){
+	//Disable TPM
+	TPM0->SC = TPM_SC_CMOD(00);
 }

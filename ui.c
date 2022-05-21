@@ -7,7 +7,7 @@
 
 #include <MKL46Z4.h>
 #include <stdbool.h>
-#include "lcd.h"
+#include "LCD/lcd.h"
 #include "Touch_Sen.h"
 #include "stepper.h"
 
@@ -42,7 +42,7 @@ void ui_init(void){
 
 	NVIC_EnableIRQ(PIT_IRQn);
 
-	SIM->SCGC6 = SIM_SCGC6_PIT_MASK; //Enable clock to PIT
+	SIM->SCGC6 |= SIM_SCGC6_PIT_MASK; //Enable clock to PIT
 	PIT->MCR = 0x00; //Enable PIT timers
 
 	PIT->CHANNEL[1].LDVAL = 0x00A00000; //10.48576 million cycles at 10.48576MHz = 1 second
@@ -78,7 +78,7 @@ void PIT_IRQHandler(void)
 	}
 	display_number(combo[curr_disp]);
 	if(curr_disp == 2){
-	    displayDecimalPoint(2);
+		displayDecimalPoint(2);
 	}else{
 		clearDecimalPoint(2);
 	}
