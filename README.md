@@ -1,5 +1,6 @@
-## Hi TAs!
+## Lock Cracking Robot
 
-This code is all from my source folder. No other configuration / driver files were edited.
+Cornell University ECE-3140 final project.
+
 
 Hope you enjoy :)
